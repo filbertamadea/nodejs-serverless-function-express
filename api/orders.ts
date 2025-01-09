@@ -12,10 +12,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  // Log incoming request headers for debugging
-  console.log("Incoming Request Headers:", req.headers);
-
-  // Handle preflight request
+  // Handle preflight requests
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -51,7 +48,6 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
     if (req.method === "DELETE") {
       const { tableNumber } = req.query;
-      console.log(54, tableNumber);
 
       if (!tableNumber) {
         return res.status(400).json({ error: "Table number is required" });
@@ -69,7 +65,6 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         .json({ message: `Order for table ${tableNumber} cleared.` });
     }
 
-    // Method not allowed
     res.setHeader("Allow", ["GET", "POST", "DELETE", "OPTIONS"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   } catch (error) {
